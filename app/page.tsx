@@ -103,14 +103,22 @@
 // }
 
 import React from "react";
+import Head from "next/head";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
+import Advantages from "./components/Advantages";
 
 const Home: React.FC = () => {
     return (
       <div className="min-h-screen bg-gray-50">
+        <Head>
+          <title>Виктория - Аренда автомобилей</title>
+          <meta name="description" content="Аренда автомобилей для такси и личных поездок" />
+        </Head>
+
         <Header />
         <HeroSection />
+        <Advantages />
       </div>
     );
 }
