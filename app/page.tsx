@@ -101,16 +101,20 @@
 //     </div>
 //   );
 // }
+"use client"
 
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import Advantages from "./components/Advantages";
 import { Car } from "./types";
 import CarCard from "./components/CarCard";
+import CarFilters from "./components/CarFilters";
 
 const Home: React.FC = () => {
+  const [selectedSegment, setSelectedSegment] = useState('все');
+
   const car = [
     {
       id: 1,
@@ -118,7 +122,6 @@ const Home: React.FC = () => {
       segment: 'эконом',
       price: 1500,
       image: '/cars/kia-rio-4-rest.png',
-      description: 'Экономичный и надежный автомобиль для работы в такси',
       engine: '1.6',
       transmission: 'Автомат',
       drive: 'Передний',
@@ -153,6 +156,10 @@ const Home: React.FC = () => {
         
         <section className="py-16">
           <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12">Наш автопарк</h2>
+
+            <CarFilters selectedSegment={selectedSegment} onSegmentChange={setSelectedSegment} />
+
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
               <CarCard car={car[0]} />
               <CarCard car={car[1]} />
