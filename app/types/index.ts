@@ -4,7 +4,6 @@ export interface Car {
     segment: string,
     price: number,
     image: string,
-    description: string,
     engine: string,
     transmission: string,
     drive: string,

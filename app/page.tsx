@@ -103,7 +103,7 @@
 // }
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
@@ -113,34 +113,82 @@ import CarCard from "./components/CarCard";
 import CarFilters from "./components/CarFilters";
 
 const Home: React.FC = () => {
+  const [cars, setCars] = useState<Car[]>([]);
+  const [filteredCars, setFilteredCars] = useState<Car[]>([]);
   const [selectedSegment, setSelectedSegment] = useState('все');
 
-  const car = [
-    {
-      id: 1,
-      name: 'Kia Rio',
-      segment: 'эконом',
-      price: 1500,
-      image: '/cars/kia-rio-4-rest.png',
-      engine: '1.6',
-      transmission: 'Автомат',
-      drive: 'Передний',
-      year: 2022,
-      available: true
-    },
-    {
-      id: 2,
-      name: 'Kia K5',
-      segment: 'бизнес',
-      price: 3000,
-      image: '/cars/kia-k5.png',
-      engine: '2',
-      transmission: 'Автомат',
-      drive: 'Передний',
-      year: 2021,
-      available: true
-    },
-  ]; 
+  useEffect(() => {
+    fetchCars();
+  }, []);
+
+  useEffect(() => {
+    if (selectedSegment === 'все') {
+      setFilteredCars(cars);
+    } else {
+      setFilteredCars(cars.filter(car => car.segment === selectedSegment))
+    }
+  }, [selectedSegment, cars]);
+
+  const fetchCars = async () => {
+    try {
+      const mockCars: Car[] = [
+        {
+          id: 1,
+          name: 'Kia Rio',
+          segment: 'эконом',
+          price: 1500,
+          image: '/cars/kia-rio-4-rest.png',
+          engine: '1.6',
+          transmission: 'Автомат',
+          drive: 'Передний',
+          year: 2022,
+          available: true
+        },
+        {
+          id: 2,
+          name: 'Kia K5',
+          segment: 'бизнес',
+          price: 3000,
+          image: '/cars/kia-k5.png',
+          engine: '2',
+          transmission: 'Автомат',
+          drive: 'Передний',
+          year: 2021,
+          available: true
+        }
+      ];
+      setCars(mockCars);
+    } catch (error) {
+      console.error('Error fetching cars:', error);
+    }
+  }
+
+  // const car = [
+  //   {
+  //     id: 1,
+  //     name: 'Kia Rio',
+  //     segment: 'эконом',
+  //     price: 1500,
+  //     image: '/cars/kia-rio-4-rest.png',
+  //     engine: '1.6',
+  //     transmission: 'Автомат',
+  //     drive: 'Передний',
+  //     year: 2022,
+  //     available: true
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Kia K5',
+  //     segment: 'бизнес',
+  //     price: 3000,
+  //     image: '/cars/kia-k5.png',
+  //     engine: '2',
+  //     transmission: 'Автомат',
+  //     drive: 'Передний',
+  //     year: 2021,
+  //     available: true
+  //   }
+  // ]; 
 
   
   return (
@@ -161,11 +209,12 @@ const Home: React.FC = () => {
             <CarFilters selectedSegment={selectedSegment} onSegmentChange={setSelectedSegment} />
 
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
-              <CarCard car={car[0]} />
-              <CarCard car={car[1]} />
-              <CarCard car={car[1]} />
-              <CarCard car={car[1]} />
-              <CarCard car={car[1]} />
+              {filteredCars.map(car => (
+                <CarCard
+                  key={car.id}
+                  car={car}
+                />
+              ))}
             </div>
           </div>
         </section>
