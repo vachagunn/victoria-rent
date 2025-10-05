@@ -104,10 +104,14 @@
 
 import React from "react";
 import Header from "./components/Header";
+import HeroSection from "./components/HeroSection";
 
 const Home: React.FC = () => {
     return (
-      <Header />
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <HeroSection />
+      </div>
     );
 }
 
