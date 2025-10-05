@@ -107,9 +107,40 @@ import Head from "next/head";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import Advantages from "./components/Advantages";
+import { Car } from "./types";
+import CarCard from "./components/CarCard";
 
 const Home: React.FC = () => {
-    return (
+  const car = [
+    {
+      id: 1,
+      name: 'Kia Rio',
+      segment: 'эконом',
+      price: 1500,
+      image: '/cars/kia-rio-4-rest.png',
+      description: 'Экономичный и надежный автомобиль для работы в такси',
+      engine: '1.6',
+      transmission: 'Автомат',
+      drive: 'Передний',
+      year: 2022,
+      available: true
+    },
+    {
+      id: 2,
+      name: 'Kia K5',
+      segment: 'бизнес',
+      price: 3000,
+      image: '/cars/kia-k5.png',
+      engine: '2',
+      transmission: 'Автомат',
+      drive: 'Передний',
+      year: 2021,
+      available: true
+    },
+  ]; 
+
+  
+  return (
       <div className="min-h-screen bg-gray-50">
         <Head>
           <title>Виктория - Аренда автомобилей</title>
@@ -119,6 +150,18 @@ const Home: React.FC = () => {
         <Header />
         <HeroSection />
         <Advantages />
+        
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
+              <CarCard car={car[0]} />
+              <CarCard car={car[1]} />
+              <CarCard car={car[1]} />
+              <CarCard car={car[1]} />
+              <CarCard car={car[1]} />
+            </div>
+          </div>
+        </section>
       </div>
     );
 }
