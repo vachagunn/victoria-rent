@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
@@ -6,6 +8,7 @@ import Advantages from "../components/Advantages";
 import { Car } from "../types";
 import CarCard from "../components/CarCard";
 import CarFilters from "../components/CarFilters";
+import RentModal from "../components/RentModal";
 
 const Page: React.FC = () => {
   const [cars, setCars] = useState<Car[]>([]);
@@ -85,6 +88,8 @@ const Page: React.FC = () => {
             </div>
           </div>
         </section>
+
+        <RentModal />
       </div>
     );
 }
