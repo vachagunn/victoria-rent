@@ -1,19 +1,26 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import Head from "next/head";
+
+import { Car } from "../types";
+
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import Advantages from "../components/Advantages";
-import { Car } from "../types";
 import CarCard from "../components/CarCard";
 import CarFilters from "../components/CarFilters";
-import RentModal from "../components/RentModal";
+import RentModal, { RentFormData } from "../components/RentModal";
 
 const Page: React.FC = () => {
   const [cars, setCars] = useState<Car[]>([]);
   const [filteredCars, setFilteredCars] = useState<Car[]>([]);
   const [selectedSegment, setSelectedSegment] = useState('все');
+
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchCars();
@@ -31,7 +38,7 @@ const Page: React.FC = () => {
     try {
       const mockCars: Car[] = [
         {
-          id: 1,
+          id: '1',
           name: 'Kia Rio',
           segment: 'эконом',
           price: 1500,
@@ -43,7 +50,7 @@ const Page: React.FC = () => {
           available: true
         },
         {
-          id: 2,
+          id: '2',
           name: 'Kia K5',
           segment: 'бизнес',
           price: 3000,
@@ -61,6 +68,17 @@ const Page: React.FC = () => {
     }
   }
   
+  const handleRentSubmit = async (formData: RentFormData) => {
+    try {
+      await axios.post('/api/reservation', formData);
+      alert('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+      setIsModalOpen(false);
+      setSelectedCar(null);
+    } catch (error) {
+      alert ('Ошибка при отправке заявки. Пожалуйста, попробуйте ещё раз.');
+    }
+  };
+
   return (
       <div className="min-h-screen bg-gray-50">
         <Head>
@@ -89,7 +107,15 @@ const Page: React.FC = () => {
           </div>
         </section>
 
-        <RentModal />
+        <RentModal
+          car={selectedCar}
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedCar(null);
+          }} 
+          onSubmit={handleRentSubmit}
+        />
       </div>
     );
 }
