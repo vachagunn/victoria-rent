@@ -22,6 +22,8 @@ const Page: React.FC = () => {
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetchCars();
   }, []);
@@ -36,6 +38,7 @@ const Page: React.FC = () => {
 
   const fetchCars = async () => {
     try {
+      setIsLoading(true);
       const mockCars: Car[] = [
         {
           id: '1',
@@ -65,6 +68,8 @@ const Page: React.FC = () => {
       setCars(mockCars);
     } catch (error) {
       console.error('Error fetching cars:', error);
+    } finally {
+      // setIsLoading(false);
     }
   }
   
@@ -101,15 +106,27 @@ const Page: React.FC = () => {
 
             <CarFilters selectedSegment={selectedSegment} onSegmentChange={setSelectedSegment} />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
-              {filteredCars.map(car => (
-                <CarCard
-                  key={car.id}
-                  car={car}
-                  onRent={handleRentClick}
-                />
-              ))}
-            </div>
+            {isLoading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="mt-4 text-gray-600">Загружаем автомобили...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
+                {filteredCars.map(car => (
+                  <CarCard
+                    key={car.id}
+                    car={car}
+                    onRent={handleRentClick}
+                  />
+                ))}
+              </div>
+            )}
+            {filteredCars.length === 0 && !isLoading && (
+              <div className="text-center py-12">
+                <p className="text-gray-600 text-lg">Автомобили выбранного класса не найдены</p>
+              </div>
+            )}
           </div>
         </section>
 
