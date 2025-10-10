@@ -68,6 +68,11 @@ const Page: React.FC = () => {
     }
   }
   
+  const handleRentClick = (car: Car) => {
+    setSelectedCar(car);
+    setIsModalOpen(true);
+  }
+
   const handleRentSubmit = async (formData: RentFormData) => {
     try {
       await axios.post('/api/reservation', formData);
@@ -101,6 +106,7 @@ const Page: React.FC = () => {
                 <CarCard
                   key={car.id}
                   car={car}
+                  onRent={handleRentClick}
                 />
               ))}
             </div>

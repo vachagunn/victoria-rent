@@ -3,10 +3,10 @@ import { Car } from "../types";
 
 interface CarCardProps {
     car: Car;
-    // onRent: (car: Car) => void;
+    onRent: (car: Car) => void;
 }
 
-const CarCard: React.FC<CarCardProps> = ({ car }) => {
+const CarCard: React.FC<CarCardProps> = ({ car, onRent }) => {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
             <img 
@@ -52,7 +52,7 @@ const CarCard: React.FC<CarCardProps> = ({ car }) => {
                 <div className="flex justify-between items-center">
                     <div className="text-2xl font-bold text-blue-600">{car.price} ₽/сутки</div>
                     <button 
-                        // onClick={() => console.log('test')}
+                        onClick={() => onRent(car)}
                         className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
                     >
                         Арендовать
