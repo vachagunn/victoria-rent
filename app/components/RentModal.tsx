@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Car } from "../types";
+import { RentFormData } from "../types";
 
 interface RentModalProps {
     car: Car | null;
@@ -8,19 +9,9 @@ interface RentModalProps {
     onSubmit: (data: RentFormData) => void;
 }
 
-export interface RentFormData {
-    carId: string,
-    carName: string,
-    name: string,
-    phone: string,
-    email: string,
-    // rentDays: number,
-    // message: string
-}
-
 const RentModal: React.FC<RentModalProps> = ( {car, isOpen, onClose, onSubmit} ) => {
     const [formData, setFormData] = useState<RentFormData>({
-        carId: car?.id || '',
+        carId: car?.id,
         carName: '',
         name: '',
         phone: '',

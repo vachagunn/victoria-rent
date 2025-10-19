@@ -5,14 +5,16 @@ import axios from "axios";
 
 import Head from "next/head";
 
-import { Car } from "../types";
+import { Car, RentFormData } from "../types";
 
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import Advantages from "../components/Advantages";
 import CarCard from "../components/CarCard";
 import CarFilters from "../components/CarFilters";
-import RentModal, { RentFormData } from "../components/RentModal";
+import RentModal from "../components/RentModal";
+
+import { CarService } from "../services/carService";
 
 const Page: React.FC = () => {
   const [cars, setCars] = useState<Car[]>([]);
@@ -39,33 +41,36 @@ const Page: React.FC = () => {
   const fetchCars = async () => {
     try {
       setIsLoading(true);
-      const mockCars: Car[] = [
-        {
-          id: '1',
-          name: 'Kia Rio',
-          segment: 'эконом',
-          price: 1500,
-          image: '/cars/kia-rio-4-rest.png',
-          engine: '1.6',
-          transmission: 'Автомат',
-          drive: 'Передний',
-          year: 2022,
-          available: true
-        },
-        {
-          id: '2',
-          name: 'Kia K5',
-          segment: 'бизнес',
-          price: 3000,
-          image: '/cars/kia-k5.png',
-          engine: '2',
-          transmission: 'Автомат',
-          drive: 'Передний',
-          year: 2021,
-          available: true
-        }
-      ];
-      setCars(mockCars);
+      // const mockCars: Car[] = [
+      //   {
+      //     id: 1,
+      //     name: 'Kia Rio',
+      //     segment: 'эконом',
+      //     price: 1500,
+      //     image: '/cars/kia-rio-4-rest.png',
+      //     engine: '1.6',
+      //     transmission: 'Автомат',
+      //     drive: 'Передний',
+      //     year: 2022,
+      //     available: true
+      //   },
+      //   {
+      //     id: 2,
+      //     name: 'Kia K5',
+      //     segment: 'бизнес',
+      //     price: 3000,
+      //     image: '/cars/kia-k5.png',
+      //     engine: '2',
+      //     transmission: 'Автомат',
+      //     drive: 'Передний',
+      //     year: 2021,
+      //     available: true
+      //   }
+      // ];
+      // setCars(mockCars);
+      const carsData = await CarService.getAllCars();
+      console.log(carsData);
+      setCars(carsData);
     } catch (error) {
       console.error('Error fetching cars:', error);
     } finally {
