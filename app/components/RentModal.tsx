@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Car } from "../types";
 import { RentFormData } from "../types";
 
@@ -9,7 +9,7 @@ interface RentModalProps {
     onSubmit: (data: RentFormData) => void;
 }
 
-const RentModal: React.FC<RentModalProps> = ( {car, isOpen, onClose, onSubmit} ) => {
+const RentModal: React.FC<RentModalProps> = ({ car, isOpen, onClose, onSubmit }) => {
     const [formData, setFormData] = useState<RentFormData>({
         carId: car?.id,
         carName: '',
@@ -17,6 +17,31 @@ const RentModal: React.FC<RentModalProps> = ( {car, isOpen, onClose, onSubmit} )
         phone: '',
         email: ''
     });
+
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('keydown', handleEsc);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEsc);
+        };
+    }, [isOpen, onClose]);
+    
+    useEffect(() => {
+        if (car) {
+            setFormData(prev => ({
+                ...prev,
+                carId: car.id
+            }));
+        }
+    }, [car]);
 
     if (!isOpen || !car) return null;
 
@@ -48,41 +73,44 @@ const RentModal: React.FC<RentModalProps> = ( {car, isOpen, onClose, onSubmit} )
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Ваше имя *
                             </label>
-                            <input 
+                            <input
                                 type="text"
                                 name="name"
                                 required
                                 value={formData.name}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Иван"
                             />
                         </div>
-                        
+
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Телефон *
                             </label>
-                            <input 
+                            <input
                                 type="tel"
                                 name="phone"
                                 required
                                 value={formData.phone}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="+7 (999) 123-45-67"
                             />
                         </div>
-                        
+
                         <div className="mb-8">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Email
                             </label>
-                            <input 
+                            <input
                                 type="email"
                                 name="email"
                                 required
                                 value={formData.email}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="ivan@example.com"
                             />
                         </div>
 

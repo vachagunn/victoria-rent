@@ -99,7 +99,7 @@ const Page: React.FC = () => {
       setIsModalOpen(false);
       setSelectedCar(null);
     } catch (error) {
-      alert('Ошибка при отправке заявки. Пожалуйста, попробуйте ещё раз.');
+      alert('Ошибка при отправке заявки. Пожалуйста, попробуйте ещё раз или позвоните нам.');
     }
   };
 
