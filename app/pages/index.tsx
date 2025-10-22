@@ -12,6 +12,8 @@ import HeroSection from "../components/HeroSection";
 import Advantages from "../components/Advantages";
 import CarCard from "../components/CarCard";
 import CarFilters from "../components/CarFilters";
+import RentalTerms from "../components/RentalTerms";
+import Contacts from "../components/Contacts";
 import RentModal from "../components/RentModal";
 
 import { CarService } from "../services/carService";
@@ -137,7 +139,7 @@ const Page: React.FC = () => {
               ))}
             </div>
           )}
-          
+
           {filteredCars.length === 0 && !isLoading && (
             <div className="text-center py-12">
               <p className="text-gray-600 text-lg">Автомобили выбранного класса не найдены</p>
@@ -145,6 +147,12 @@ const Page: React.FC = () => {
           )}
         </div>
       </section>
+
+      {/* Секция с условиями аренды */}
+      <RentalTerms />
+
+      {/* Секция с контактами */}
+      <Contacts />
 
       <RentModal
         car={selectedCar}
