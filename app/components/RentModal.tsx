@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Car } from "../types";
-import { RentFormData } from "../types";
+import { Car, OrderData } from "../types";
 
 interface RentModalProps {
     car: Car | null;
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (data: RentFormData) => void;
+    onSubmit: (data: OrderData) => void;
 }
 
 const RentModal: React.FC<RentModalProps> = ({ car, isOpen, onClose, onSubmit }) => {
-    const [formData, setFormData] = useState<RentFormData>({
-        carId: car?.id,
-        carName: '',
+    const [formData, setFormData] = useState({
         name: '',
         phone: '',
         email: ''
@@ -38,7 +35,8 @@ const RentModal: React.FC<RentModalProps> = ({ car, isOpen, onClose, onSubmit })
         if (car) {
             setFormData(prev => ({
                 ...prev,
-                carId: car.id
+                carId: car.id,
+                carName: car.name
             }));
         }
     }, [car]);
@@ -47,9 +45,19 @@ const RentModal: React.FC<RentModalProps> = ({ car, isOpen, onClose, onSubmit })
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        formData.carName = car.name;
-        console.log(formData);
-        onSubmit(formData);
+
+        const orderData: OrderData = {
+            cardId: car.id,
+            carName: car.name,
+            customerName: formData.name,
+            customerPhone: formData.phone,
+            customerEmail: formData.email
+        }
+
+        console.log('FORM DATA:', formData);
+        console.log('ORDER DATA:', orderData);
+
+        onSubmit(orderData);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +114,6 @@ const RentModal: React.FC<RentModalProps> = ({ car, isOpen, onClose, onSubmit })
                             <input
                                 type="email"
                                 name="email"
-                                required
                                 value={formData.email}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

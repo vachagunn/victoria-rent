@@ -12,12 +12,10 @@ export interface Car {
     created_at?: string
 }
 
-export interface RentFormData {
-    carId: number | undefined,
-    carName: string,
-    name: string,
-    phone: string,
-    email: string,
-    // rentDays: number,
-    // message: string
+export interface OrderData {
+    cardId: number;
+    carName: string;
+    customerName: string;
+    customerPhone: string;
+    customerEmail: string;
 }

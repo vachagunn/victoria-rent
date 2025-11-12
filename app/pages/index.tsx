@@ -5,7 +5,9 @@ import axios from "axios";
 
 import Head from "next/head";
 
-import { Car, RentFormData } from "../types";
+import { Car, OrderData } from "../types";
+
+import { getMockCars } from "../utils/mock";
 
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
@@ -58,41 +60,12 @@ const Page: React.FC = () => {
     }
   };
 
-  const getMockCars = (): Car[] => {
-    return [
-      {
-        id: 1,
-        name: 'Kia Rio',
-        segment: 'эконом',
-        price: 1500,
-        image: '/cars/kia-rio-4-rest.png',
-        engine: '1.6',
-        transmission: 'Автомат',
-        drive: 'Передний',
-        year: 2022,
-        available: true
-      },
-      {
-        id: 2,
-        name: 'Kia K5',
-        segment: 'бизнес',
-        price: 3000,
-        image: '/cars/kia-k5.png',
-        engine: '2.0',
-        transmission: 'Автомат',
-        drive: 'Передний',
-        year: 2021,
-        available: true
-      }
-    ];
-  };
-
   const handleRentClick = (car: Car) => {
     setSelectedCar(car);
     setIsModalOpen(true);
   };
 
-  const handleRentSubmit = async (formData: RentFormData) => {
+  const handleRentSubmit = async (formData: OrderData) => {
     try {
       await axios.post('/api/reservation', formData);
       alert('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');

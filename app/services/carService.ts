@@ -8,4 +8,9 @@ export const CarService = {
         const response = await api.get('/cars', { params });
         return response.data;
     },
+
+    async getCarById(id: number): Promise<Car> {
+        const response = await api.get(`/cars/${id}`);
+        return response.data;
+    }
 };
